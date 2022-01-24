@@ -124,7 +124,7 @@ valori.forEach(function (v) {
 
 
 //
-// Prossima lezione
+// Miglior scelta per h
 //
 
 derivata = function (f) {
