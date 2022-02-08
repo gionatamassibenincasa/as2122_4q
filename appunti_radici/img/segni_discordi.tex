@@ -1,0 +1,50 @@
+% tikzpic.tex
+\documentclass[crop,tikz]{standalone}% 'crop' is the default for v1.0, before it was 'preview'
+%\usetikzlibrary{...}% tikz package already loaded by 'tikz' option
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.17}
+\begin{document}
+\begin{tikzpicture}
+%%%
+\begin{axis}[
+    axis lines = left,
+    xlabel = \(x\),
+    ylabel = {\(f(x)\)},
+    grid=major, % Display a grid
+    grid style={dashed,gray!30},
+    axis equal,
+    axis x line*=middle,
+    axis y line*=middle,
+]
+\addplot [
+    domain=-1:1, 
+    samples=100, 
+    color=red,
+]
+{exp(x)-3*x};
+\addlegendentry{\(e^x-3x\)}
+\addplot [
+    domain=-1:1, 
+    samples=100, 
+    color=blue,
+    ]
+    {(x-1/3)^3};
+\addlegendentry{\(\left(x-\frac{1}{3}\right)^3\)}
+\addplot [
+    domain=-1:1, 
+    samples=100, 
+    color=green,
+    ]
+    {sin(deg(10*x^2))/(5*x)};
+\addlegendentry{\(\frac{\sin(10 x^2)}{5x}\)}
+\addplot [
+    domain=-1:1, 
+    samples=400, 
+    color=purple,
+    ]
+    {sin(deg(1/x))};
+\addlegendentry{\(\sin(\frac{1}{x})\)}
+\end{axis}
+%%%
+\end{tikzpicture}
+\end{document}
