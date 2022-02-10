@@ -12,14 +12,14 @@
     ylabel = {\(f(x)\)},
     grid=major, % Display a grid
     grid style={dashed,gray!30}, % Set the
-    ymin = -10,
+    ymin = -5,
     axis equal,
     axis x line*=middle,
     axis y line*=middle,
 ]
 %Below the red parabola is defined
 \addplot [
-    domain=-3:3, 
+    domain=-2:2, 
     samples=100, 
     color=red,
 ]
@@ -27,7 +27,7 @@
 \addlegendentry{\(x^2 + 1\)}
 %Here the blue constant function
 \addplot [
-    domain=-3:3, 
+    domain=-5:5, 
     samples=100, 
     color=blue,
     ]

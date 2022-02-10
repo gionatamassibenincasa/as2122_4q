@@ -16,19 +16,19 @@
         axis y line*=middle,
     ]
     \addplot [
-        domain=-10:10, 
+        domain=-2:2,
         samples=100, 
         color=red,
     ]
-    {cos(deg(x))-1};
-    \addlegendentry{\(cos(x) - 1\)}
+    {cos(deg(5*x))-1};
+    \addlegendentry{\(cos(5x) - 1\)}
     \addplot [
-        domain=-10:10, 
+        domain=-2:2, 
         samples=100, 
         color=blue,
         ]
-        {(x/5)^2};
-    \addlegendentry{\(\left(\frac{x}{5}\right)^2\)}
+        {(x/2)^2};
+    \addlegendentry{\(\left(\frac{x}{2}\right)^2\)}
     \end{axis}
     \end{tikzpicture}
 \end{document}

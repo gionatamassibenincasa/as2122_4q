@@ -171,7 +171,7 @@ $s_k$ per $\mathrm{segno}(f (\frac {a_k +b_k}{2}))$, dove
 
 Per il calcolo di $\frac{a_k+b_k}{2}$ in virgola si deve usare la formula: $a_k + (b_k - a_k) / 2$ in modo da ridurre gli errori di troncamento.
 
-Si vedano il listato \ref{lst:bisezione} e gli esempi.
+Si vedano il listato \ref{lst:bisezione} e gli esempi nelle tab. .
 
 \begin{lstfloat}
     \lstinputlisting{lst/bisezione.js}
@@ -186,22 +186,18 @@ Si vedano il listato \ref{lst:bisezione} e gli esempi.
     every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
 	every last row/.style={after row=\bottomrule},	% style the last row
     every column/.style={dec sep align,precision=10}
-	%every first column/.style={column type/.add={|}{}},	% style the first column
-	%every last column/.style={column type/.add={}{|}},	% style the last column
-	%columns/C/.style = {column type/.add={|}{|}}	% style the designated column
 ]{tbl/tab_bis_sqrt_6.dat}
 \end{center}        
 \caption[]{Metodo dicotomico applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
+\label{tbl:tab_bis_sqrt_6}
 \end{table}
 
-%%% /home/massi/workspace/scuola/2021_2/as_21_22_4q/as2122_4q/appunti_radici/img/iter_bis_sqrt_6.tex
 \begin{figure}[ht]
     \centering
     \includestandalone{img/iter_bis_sqrt_6}
     \caption{Funzioni che intersecano l'asse $y = 0$ in un estremante}
-    \label{fig:zero_estremante}
+    \label{fig:tab_bis_sqrt_6}
 \end{figure}
-
 
 \begin{table}
     \begin{center}
@@ -210,12 +206,10 @@ Si vedano il listato \ref{lst:bisezione} e gli esempi.
             every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
             every last row/.style={after row=\bottomrule},	% style the last row
             every column/.style={dec sep align,precision=10}
-            %every first column/.style={column type/.add={|}{}},	% style the first column
-            %every last column/.style={column type/.add={}{|}},	% style the last column
-            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
         ]{tbl/tab_bis_sin.dat}
     \end{center}        
     \caption[]{Metodo dicotomico applicato a $sin(x)$ nell'intervallo $[3, 3.2]$ con nmax = 10}
+    \label{tbl:tab_bis_sin}
 \end{table}
 
 \begin{table}
@@ -232,6 +226,7 @@ Si vedano il listato \ref{lst:bisezione} e gli esempi.
         ]{tbl/tab_bis_exp_mx.dat}
     \end{center}        
     \caption[]{Metodo dicotomico applicato a $e^{e^{-x}}-x$ nell'intervallo $[0, 1]$ con nmax = 10}
+    \label{tbl:tab_bis_exp_mx}
 \end{table}
 
 \section{Iterazioni di punto fisso}
