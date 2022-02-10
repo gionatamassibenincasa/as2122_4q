@@ -119,7 +119,7 @@ Altre funzioni hanno radici nei punti di massimo o di minimo locale (es: fig. \r
     \includestandalone{img/zero_estremanti}
     \caption{Funzioni che intersecano l'asse $y = 0$ in un estremante}
     \label{fig:zero_estremante}
-    \end{figure}
+\end{figure}
     
 
 Per essere sicuri che una funzione ammetta almeno una radice richiediamo che la funzione assuma valori positivi e negativi in un certo intervallo e che sia continua.
@@ -194,25 +194,14 @@ Si vedano il listato \ref{lst:bisezione} e gli esempi.
 \caption[]{Metodo dicotomico applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
 \end{table}
 
-% \pgfplotstableread{tbl/tab_bis_sqrt_6.dat}\tab_bis_sqrt_6
-\begin{tikzpicture}
-    \begin{axis}[
-        axis lines = left,
-        xlabel = \(x\),
-        ylabel = {\(f(x)\)},
-        grid=major, % Display a grid
-        grid style={dashed,gray!30}, % Set the
-        ]
-        \addplot [
-            domain=1:4,
-            samples=100, 
-            color=blue,
-            ]
-            {x^2 - 6};
-        \addlegendentry{\(x^2 -6\)}
-        \addplot[only marks] table [x=$x_k$, y=$f_k$, col sep=tab] {tbl/tab_bis_sqrt_6.dat};
-    \end{axis}
-\end{tikzpicture}
+%%% /home/massi/workspace/scuola/2021_2/as_21_22_4q/as2122_4q/appunti_radici/img/iter_bis_sqrt_6.tex
+\begin{figure}[ht]
+    \centering
+    \includestandalone{img/iter_bis_sqrt_6}
+    \caption{Funzioni che intersecano l'asse $y = 0$ in un estremante}
+    \label{fig:zero_estremante}
+\end{figure}
+
 
 \begin{table}
     \begin{center}
@@ -286,7 +275,13 @@ Si considerino due punti $a=x_0$ e $b=x_1$ tali da soddisfare le ipotesi del teo
 È possibile costruire una successione che per ogni $k \geq 0$  il punto $x_{k+1}$ sia lo zero della retta passante per il punto
 ($x_{k}$, $f(x_{k})$) e di coefficiente angolare
 
-$$\displaystyle m_k = \frac{f(a)  - f(f_k)}{a - x_k}.$$
+$$\displaystyle m_k = \frac{f(a)  - f(x_k)}{a - x_k}.$$
+
+L'iterata ha equazione:
+
+$$x_{k+1} = x_k - f(x_k) \frac{a  - x_k)}{f(a) - f(x_k)}.$$
+
+
 
 \subsubsection{Metodo delle secanti}
 

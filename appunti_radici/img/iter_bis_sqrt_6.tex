@@ -1,0 +1,23 @@
+\documentclass[crop,tikz]{standalone}% 'crop' is the default for v1.0, before it was 'preview'
+%\usetikzlibrary{...}% tikz package already loaded by 'tikz' option
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.17,ytick style={draw=none},xtick style={draw=none}}
+%\pgfkeys{/pgf/number format/.cd,fixed,precision=1}
+
+\begin{document}
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = left, xlabel = \(x\), ylabel = {\(f(x)\)},
+        grid=major, grid style={dashed,gray!30}, ]
+        \addplot [domain=1:4, samples=100, color=blue,] {x^2 - 6}; \addlegendentry{\(x^2 -6\)}
+        \addplot[
+            only marks,
+            mark=*,
+            point meta=explicit symbolic,
+            visualization depends on={meta \as \k},
+            nodes near coords={$x_{\pgfmathprintnumber{\k}}$}
+            ]
+            table[x=$x_k$, y=$f_k$, meta=$k$, col sep=tab, row sep=newline] {../tbl/tab_bis_sqrt_6.dat};
+    \end{axis}
+\end{tikzpicture}
+\end{document}
