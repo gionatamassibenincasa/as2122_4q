@@ -1,0 +1,94 @@
+\subsection{Metodo delle corde}
+
+Si considerino due punti $a=x_0$ e $b=x_1$ tali da soddisfare le ipotesi del teorema di Bolzano.
+È possibile costruire una successione che per ogni $k \geq 0$  il punto $x_{k+1}$ sia lo zero della retta passante per il punto
+($x_{k}$, $f(x_{k})$) e di coefficiente angolare
+
+$$\displaystyle m_k = \frac{f(a)  - f(x_k)}{a - x_k}.$$
+
+L'iterata ha equazione:
+
+$$x_{k+1} = x_k - f(x_k) \frac{a  - x_k)}{f(a) - f(x_k)}.$$
+
+\subsubsection{Convergenza}
+
+Il metodo non necessariamente converge.
+Può oscillare (vedi tab.~\ref{tbl:tab_cor_osc}) o divergere.
+
+
+\subsubsection{Codifica in JavaScript}
+
+Si veda il listato \ref{lst:corde}.
+
+\begin{lstfloat}
+    \lstinputlisting{lst/corde.js}
+    \caption{Descrizione in JavaScript del metodo delle corde}
+    \label{lst:corde}
+\end{lstfloat}
+
+\subsubsection{Esempi}
+
+Si vedano le tabb.~\ref{tbl:tab_cor_sqrt_6}, \ref{tbl:tab_cor_sin} e \ref{tbl:tab_cor_exp_mx} e la fig. \ref{fig:cor_sqrt_6}.
+
+\begin{table}
+    \begin{center}
+\pgfplotstabletypeset[
+	col sep=tab,
+    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+	every last row/.style={after row=\bottomrule},	% style the last row
+    every column/.style={dec sep align,precision=10}
+]{tbl/tab_bis_sqrt_6.dat}
+\end{center}        
+\caption[]{Metodo delle corde applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
+\label{tbl:tab_cor_sqrt_6}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{img/iter_cor_sqrt_6}
+    \caption{Successione delle soluzioni del metodo delle corde applicato a $x^2 -6$ nell'intervallo $[0, 6]$}
+    \label{fig:cor_sqrt_6}
+\end{figure}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+        ]{tbl/tab_cor_sin.dat}
+    \end{center}        
+    \caption[]{Metodo delle corde applicato a $sin(x)$ nell'intervallo $[3, 3.2]$ con nmax = 10}
+    \label{tbl:tab_cor_sin}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
+            %every first column/.style={column type/.add={|}{}},	% style the first column
+            %every last column/.style={column type/.add={}{|}},	% style the last column
+            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+        ]{tbl/tab_cor_exp_mx.dat}
+    \end{center}        
+    \caption[]{Metodo delle corde applicato a $e^{e^{-x}}-x$ nell'intervallo $[0, 1]$ con nmax = 10}
+    \label{tbl:tab_cor_exp_mx}
+\end{table}
+
+\begin{table}
+    \begin{center}
+\pgfplotstabletypeset[
+	col sep=tab,
+    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+	every last row/.style={after row=\bottomrule},	% style the last row
+    every column/.style={dec sep align,precision=10}
+]{tbl/tab_cor_osc.dat}
+\end{center}        
+\caption[]{Metodo delle corde applicato a $x^2 -1$ nell'intervallo $[0, 2]$ con nmax = 10}
+\label{tbl:tab_cor_osc}
+\end{table}

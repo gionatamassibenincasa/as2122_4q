@@ -58,3 +58,7 @@ fs.writeFileSync(
     0.5
   )
 );
+fs.writeFileSync(
+  "tab_cor_osc.dat",
+  cordeToTeX((x) => x * x - 1, 0, 2)
+);

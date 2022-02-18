@@ -1,4 +1,4 @@
- \documentclass[10pt]{article} 
+\documentclass[12pt]{article} 
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \geometry{a4paper}
@@ -32,9 +32,24 @@
 \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
 
-\newtheorem{theorem}{Teorema}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amsthm}
+
+\theoremstyle{plain}% default
+\newtheorem{thm}{Teorema}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposizione}
+\newtheorem*{cor}{Corollario}
+\newtheorem*{KL}{Lemma di Klein}
+\theoremstyle{definition}
+\newtheorem{defn}{Definizione}[section]
+\newtheorem{conj}{Congettura}[section]
+\newtheorem{exmp}{Esempio}[section]
+\theoremstyle{remark}
+\newtheorem*{comm}{Commento}
+\newtheorem*{note}{Nota}
+\newtheorem{caso}{Caso}
 \usepackage[mode=buildnew]{standalone}% requires -shell-escape
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -80,8 +95,6 @@
 \floatname{lstfloat}{Codice sorgente}
 \def\lstfloatautorefname{Listato} % needed for hyperref/auroref
 
-\usepackage{animate}
-
 
 %%% The "real" document content comes below...
 
@@ -94,6 +107,8 @@
 \maketitle
 
 \thispagestyle{empty}%\frenchspacing
+
+\tableofcontents
 
 \section{Il problema}
 
@@ -120,13 +135,14 @@ Altre funzioni hanno radici nei punti di massimo o di minimo locale (es: fig. \r
     \caption{Funzioni che intersecano l'asse $y = 0$ in un estremante}
     \label{fig:zero_estremante}
 \end{figure}
-    
+
+\subsection{Teorema degli zeri}
 
 Per essere sicuri che una funzione ammetta almeno una radice richiediamo che la funzione assuma valori positivi e negativi in un certo intervallo e che sia continua.
 
-\begin{theorem}[Bolzano]
+\begin{thm}[Bolzano]
 Se $f (x)$ è una funzione continua sull'intervallo limitato e chiuso $[a, b]$ e $f (a) \cdot f (b) < 0$, allora esiste almeno una radice di $f (x)$ nell'intervallo $[a, b]$.
-\end{theorem}
+\end{thm}
 
 Se le ipotesi del teorema sono vere può esistere una sola radice oppure ce ne possono essere in numero finito o anche infinite (fig. \ref{fig:ipotesibolzano}).
 
@@ -140,94 +156,53 @@ Se le ipotesi del teorema sono vere può esistere una sola radice oppure ce ne p
 Un metodo di ricerca delle radici, se convergente, restituirà una sola delle radici.
 Si intuisce che maggiore è la pendenza della funzione in un intorno della radice, più è facile discriminare la radice. Se invece la pendenza è nulla o quasi, allora il problema si dice mal condizionato.
 
-\section{Metodi diretti e metodi iterativi}
+\section{Metodi numerici}
+
+\subsection{Metodi diretti e metodi iterativi}
 
 I \textbf{metodi diretti} sono algoritmi che, in assenza di errori di arrotondamento, forniscono la soluzione in un numero finito di operazioni.
 
 I \textbf{metodi iterativi} sono algoritmi nei quali la soluzione è ottenuta come limite di una successione di soluzioni. Nella risposta fornita da un metodo iterativo è, quindi, presente usualmente un errore di troncamento.
 
+\subsection{Ordine di convergenza}
+
+Sia $x_k, k = 0, 1,\ldots$ una successione convergente al valore $\alpha$.
+
+\begin{defn}[Errore all'iterazione $k$-esima]
+L'errore per elemento della successione in posizione $k$ è il valore non negativo
+$\varepsilon_k = |x_k - \alpha|$.
+\end{defn}
+
+\begin{defn}[Ordine di convergenza]
+Se esistono un numero reale $p \geq 1$ e una costante reale positiva $C$
+tale che
+$\lim_{k\to+\infty} \frac{\varepsilon_{k+1}}{\varepsilon_{k}^p}=C$
+allora la successione $x_k, k = 0, 1,\ldots$ ha ordine di convergenza $p$
+e costante d'errore $C$.
+\end{defn}
+
+Si noti che nella definizione di ordine di convergenza, la costante $C$
+è positiva, ossia strettamente maggiore di zero.
+
+\subsection{Criteri di arresto}
+
+I metodi iterativi sviluppano una successione di valori che deve essere troncata
+per produrre un risultato.
+Si posso usare vari criteri per arrestare un metodo numerico in base a vincoli
+sull'approssimazione della soluzione cercata e sulle risorse di calcolo
+(essenzialmente il tempo di calcolo) da impiegare.
+I criteri di arresto comunemente adottati sono i seguenti:
+
+\begin{description}
+\item[Tolleranza sull'approssimazione della funzione]$|f(x_k)| < \tau_y$.
+\item[Tolleranza assoluta sull'approssimazione di $\alpha$] $|x_{k + 1} - x_{k}| < \tau_x$.
+\item[Tolleranza relativa sull'approssimazione di $\alpha$] $\frac{|x_{k + 1} - x_{k}|}{|x_{k+1}|} < \tau_r$.
+\item[Numero di iterazioni] $k < k_M$. 
+\end{description}
+
 % Si veda Comincioli2004.
 
-\section{Metodo di bisezione}
-
-Sia $f (x)$ una funzione continua sull'intervallo limitato e chiuso $[a, b]$ con $f (a) \cdot f (b) < 0$. L'algoritmo genera una successione di intervalli
-$[a_k , b_k]$ con $f (a_k ) \cdot f (b_k ) < 0$ e con $[a_k , b_k ] \subset [a_{k-1}$ , $b_{k-1} ]$ e $|b_k - a_k | = \frac{1}{2}|b_{k-1} - a_{k-1} |$. 
-
-Date due tolleranze $\epsilon_1$ , $\epsilon_2$ , l’algoritmo si arresta o quando $|b_k - a_k | \leq \epsilon_1$ o quando $|f (\frac {a_k +b_k}{2} )| \leq
-\epsilon_2$ o infine quando $k > \text{nmax}$, ove nmax è un numero massimo di iterazioni fissato.
-
-Per alleggerire la notazione usiamo $s_{a_k}$ per indicare $\mathrm{segno} \left(f\left(a_k\right)\right)$,
-$s_{b_k}$ per $\mathrm{segno}(f(b_k))$ e
-$s_k$ per $\mathrm{segno}(f (\frac {a_k +b_k}{2}))$, dove
-
-\begin{equation}
-    \mathrm{segno}(x) =
-    \begin{cases}
-        -1 & \text{se } x < 0, \\
-         0 & \text{{se }} x = 0, \\
-        +1 & \text{{se }} x > 0
-    \end{cases}
-\end{equation}
-
-Per il calcolo di $\frac{a_k+b_k}{2}$ in virgola si deve usare la formula: $a_k + (b_k - a_k) / 2$ in modo da ridurre gli errori di troncamento.
-
-Si vedano il listato \ref{lst:bisezione} e gli esempi nelle tab. .
-
-\begin{lstfloat}
-    \lstinputlisting{lst/bisezione.js}
-    \caption{Descrizione in JavaScript del metodo di Bisezione}
-    \label{lst:bisezione}
-\end{lstfloat}
-
-\begin{table}
-    \begin{center}
-\pgfplotstabletypeset[
-	col sep=tab,
-    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-	every last row/.style={after row=\bottomrule},	% style the last row
-    every column/.style={dec sep align,precision=10}
-]{tbl/tab_bis_sqrt_6.dat}
-\end{center}        
-\caption[]{Metodo dicotomico applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
-\label{tbl:tab_bis_sqrt_6}
-\end{table}
-
-\begin{figure}[ht]
-    \centering
-    \includestandalone{img/iter_bis_sqrt_6}
-    \caption{Funzioni che intersecano l'asse $y = 0$ in un estremante}
-    \label{fig:tab_bis_sqrt_6}
-\end{figure}
-
-\begin{table}
-    \begin{center}
-        \pgfplotstabletypeset[
-            col sep=tab,
-            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-            every last row/.style={after row=\bottomrule},	% style the last row
-            every column/.style={dec sep align,precision=10}
-        ]{tbl/tab_bis_sin.dat}
-    \end{center}        
-    \caption[]{Metodo dicotomico applicato a $sin(x)$ nell'intervallo $[3, 3.2]$ con nmax = 10}
-    \label{tbl:tab_bis_sin}
-\end{table}
-
-\begin{table}
-    \begin{center}
-        \pgfplotstabletypeset[
-            col sep=tab,
-            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-            every last row/.style={after row=\bottomrule},	% style the last row
-            every column/.style={dec sep align,precision=10}
-            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
-            %every first column/.style={column type/.add={|}{}},	% style the first column
-            %every last column/.style={column type/.add={}{|}},	% style the last column
-            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
-        ]{tbl/tab_bis_exp_mx.dat}
-    \end{center}        
-    \caption[]{Metodo dicotomico applicato a $e^{e^{-x}}-x$ nell'intervallo $[0, 1]$ con nmax = 10}
-    \label{tbl:tab_bis_exp_mx}
-\end{table}
+\input{bisezione.tex}
 
 \section{Iterazioni di punto fisso}
 
@@ -240,16 +215,16 @@ $$x_{k+1} = \Phi(x_k)$$.
 
 \subsection{Approssimazioni con rette}
 
-Una retta è definita da una funzione del tipo $f(x) = m x + q$.
+Una retta è definita da una funzione del tipo $r(x) = m x + q$.
 Se imponiamo il passaggio per il punto $(x_k, f(x_k))$ della funzione di cui cerchiamo una radice, il fascio di rette sarà:
 
-$$f(x) - f(x_k) = m (x - x_k)$$.
+$$r(x) - f(x_k) = m (x - x_k)$$.
 
 Possiamo generare delle iterazioni andando a fissare il coefficiente angolare ad ogni iterazione e determinando l'intersezione della retta con l'asse delle ascisse.
 
-$$f(x_{k+1}) - f(x_k) = m_k (x_{k+1} - x_k)$$
+$$r(x_{k+1}) - f(x_k) = m_k (x_{k+1} - x_k)$$
 
-Risolvendo per $$f(x_{k+1}) = 0$$ si ha
+Risolvendo per $$r(x_{k+1}) = 0$$ si ha
 
 \begin{equation}
     x_{k+1} = x_k - \frac{f(x_k)}{m_k}
@@ -263,146 +238,37 @@ Risolvendo per $$f(x_{k+1}) = 0$$ si ha
     \end{center}
 \end{figure}
 
+\input{corde.tex}
 
-\subsubsection{Metodo delle corde}
+\input{secanti}
 
-Si considerino due punti $a=x_0$ e $b=x_1$ tali da soddisfare le ipotesi del teorema di Bolzano.
-È possibile costruire una successione che per ogni $k \geq 0$  il punto $x_{k+1}$ sia lo zero della retta passante per il punto
-($x_{k}$, $f(x_{k})$) e di coefficiente angolare
+\input{tangenti}
 
-$$\displaystyle m_k = \frac{f(a)  - f(x_k)}{a - x_k}.$$
+\subsection{Altri metodi}
 
-L'iterata ha equazione:
+\subsubsection{Metodo di Steffensen}
 
-$$x_{k+1} = x_k - f(x_k) \frac{a  - x_k)}{f(a) - f(x_k)}.$$
+Le derivate sono complesse da calcolare quando non sono
+note in forma esplicita ma è possibile ottenere un metodo
+di ordine di convergenza due applicando più valutazini della funzione
+senza ricorrere alla derivazione.
 
+$$x_{k+1} = x_k -\frac{f(x_k)}{g(x_k)};\quad g(x_k) =\frac{f(x_k + f(x_k )) - f(x_k )}{f(x_k)}$$
 
+$$x_{k+1} = x_k - \frac{f(x_k)^2}{f(x_k + f(x_k )) - f(x_k )}$$
 
-\subsubsection{Metodo delle secanti}
+Si noti che la valutazione della funzione $f$ in $x_k$ è molto vicina a zero.
+Per apprezzare la funzione $g$ approssimi $f'$ riscriviamo $g(x_k)$ con
+$h = f(x_k)$:
 
-Dati due punti iniziali $x_0$ e $x_1$, si considera la secante passante per i due punti dati.
+$$g(x_k) =\frac{f(x_k + h(x_k )) - f(x_k )}{f(x_k)}$$.
 
-In generale il coefficiente angolare $m_k$ è calcolato come:
+\subsubsection{Metodo di Muller}
 
-$$m_k = \frac{f(x_k) - f(x_{k-1})}{x_k - x_{k-1}}.$$
-
-L'iterata è
-
-$$x_{k+1} = x_k - f(x_k) \cdot \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.$$
-
-\subsubsection{Metodo delle tangenti}
-
-Si approssima la funzione $f(x)$ con la retta $r(x) - f(x_k) = f'(x_k) (x - x_k)$ tangente ad essa in $(x_k, f(x_k))$.
-
-L'iterata assume la forma:
-
-$$x_{k+1} = x_k - \frac{f(x_k)}{f'{x_k}}.$$
-
-Si vedano il listato \ref{lst:tangenti} e gli esempi.
-
-\begin{lstfloat}
-    \lstinputlisting{lst/tangenti.js}
-    \caption{Descrizione in JavaScript del metodo delle tangenti}
-    \label{lst:tangenti}
-\end{lstfloat}
-
-\begin{table}
-    \begin{center}
-\pgfplotstabletypeset[
-	col sep=tab,
-    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-	every last row/.style={after row=\bottomrule},	% style the last row
-    every column/.style={dec sep align,precision=10}
-	%every first column/.style={column type/.add={|}{}},	% style the first column
-	%every last column/.style={column type/.add={}{|}},	% style the last column
-	%columns/C/.style = {column type/.add={|}{|}}	% style the designated column
-]{tbl/tab_tan_sqrt_6.dat}
-\end{center}        
-\caption[]{Metodo delle tangenti applicato a $x^2 -6$ con stima iniziale 3 e nmax = 10}
-\end{table}
-
-% \pgfplotstableread{tbl/tab_bis_sqrt_6.dat}\tab_bis_sqrt_6
-\begin{tikzpicture}
-    \begin{axis}[
-        axis lines = left,
-        xlabel = \(x\),
-        ylabel = {\(f(x)\)},
-        grid=major, % Display a grid
-        grid style={dashed,gray!30}, % Set the
-        ]
-        \addplot [
-            domain=1:4,
-            samples=100, 
-            color=blue,
-            ]
-            {x^2 - 6};
-        \addlegendentry{\(x^2 -6\)}
-        \addplot[only marks] table [x=$x_k$, y=$f_k$, col sep=tab] {tbl/tab_tan_sqrt_6.dat};
-    \end{axis}
-\end{tikzpicture}
-
-\begin{table}
-    \begin{center}
-        \pgfplotstabletypeset[
-            col sep=tab,
-            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-            every last row/.style={after row=\bottomrule},	% style the last row
-            every column/.style={dec sep align,precision=10}
-            %every first column/.style={column type/.add={|}{}},	% style the first column
-            %every last column/.style={column type/.add={}{|}},	% style the last column
-            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
-        ]{tbl/tab_tan_sin.dat}
-    \end{center}        
-    \caption[]{Metodo delle tangenti applicato a $sin(x)$ con stima iniziale 3,1 e nmax = 10}
-\end{table}
-
-\begin{table}
-    \begin{center}
-        \pgfplotstabletypeset[
-            col sep=tab,
-            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
-            every last row/.style={after row=\bottomrule},	% style the last row
-            every column/.style={dec sep align,precision=10}
-            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
-            %every first column/.style={column type/.add={|}{}},	% style the first column
-            %every last column/.style={column type/.add={}{|}},	% style the last column
-            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
-        ]{tbl/tab_tan_exp_mx.dat}
-    \end{center}        
-    \caption[]{Metodo delle tangenti applicato a $e^{e^{-x}}-x$ con stima iniziale 0,5 e nmax = 10}
-\end{table}
-
-\subsubsection{Esempio: algoritmo del reciproco}
-
-Si vuole cercare il reciproco del valore $\nu$ come $\alpha = \frac{1}{\nu}$ con il metodo delle tangenti.
-
-Per prima cosa occorre trasformare il problema con una funzione che si annulla in $\frac{1}{\nu}$.
-
-Scegliamo $$f(x) = \nu - \frac{1}{x}$$ che applicata al reciproco di $\nu$ produce
-$f(\frac{1}{\nu}) = \nu - \frac{1}{\frac{1}{\nu}} = \nu - \nu = 0$. 
-
-La derivata prima assume la forma $f'(x) = \frac{1}{x^2}$ e
-
-$$\frac{f(x)}{f'(x)} = \frac{\nu - \frac{1}{x}}{\frac{1}{x^2}} = \nu x^2 - x.$$
-
-L'iterata del metodo delle tangenti è:
-
-$$x_{k+1} = x_k - (\nu x_k^2 - x_k) = 2 x_k - \nu x_k^2  = x_k \cdot (2 - \nu \cdot x_k).$$
-
-Si noti che per calcolare il reciproco di un numero sono sufficienti le operazioni di moltiplicazione e sottrazione.
-Per la moltiplicazione occorrono le operazioni primitive di scorrimento e addizione e per la sottrazione quelle di negazione bit a bit e di addizione (basterebbe il solo incremento unitario).
-
-Nota: queste proprietà permettono di realizzare le CPU senza l'operazione di divisione.
-
-\subsection{Approssimazioni con parabole}
-
-\subsubsection{Metodo di Newton del secondo ordine}
-
-
-
-\begin{equation}
-    p (x) = a x^2 + b x + c
-\end{equation}
-
+Un altro modo di approssimare la funzione $f$ è quella di usare una parabola.
+Nel metodo di Muller si stimano tre punti iniziali e si determina la parabola
+passante per essi. Dalla soluzione dell'equazione di secondo grado si ottengo
+due punti che si usano come nuove stime.
+Risolvere le equazioni secondo grado, però, può portare a soluzioni inesistenti.
 
 \end{document}

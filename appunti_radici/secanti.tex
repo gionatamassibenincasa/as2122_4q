@@ -1,0 +1,79 @@
+\subsection{Metodo delle secanti}
+
+Dati due punti iniziali $x_0$ e $x_1$, si considera la secante passante per i due punti dati.
+
+In generale il coefficiente angolare $m_k$ è calcolato come:
+
+$$m_k = \frac{f(x_k) - f(x_{k-1})}{x_k - x_{k-1}}.$$
+
+L'iterata è
+
+$$x_{k+1} = x_k - f(x_k) \cdot \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.$$
+
+\subsubsection{Convergenza}
+
+Il metodo non necessariamente converge.
+Può oscillare o divergere.
+
+\subsubsection{Codifica in JavaScript}
+
+\begin{lstfloat}
+    \lstinputlisting{lst/secanti.js}
+    \caption{Descrizione in JavaScript del metodo delle secanti}
+    \label{lst:secanti}
+\end{lstfloat}
+
+\subsubsection{Esempi}
+
+Si vedano gli esempi nelle tabb.~\ref{tbl:tab_sec_sqrt_6}, \ref{tbl:tab_sec_sin} e \ref{tbl:tab_sec_exp_mx} e la fig.~\ref{fig:sec_sqrt_6}.
+
+
+\begin{table}
+    \begin{center}
+\pgfplotstabletypeset[
+	col sep=tab,
+    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+	every last row/.style={after row=\bottomrule},	% style the last row
+    every column/.style={dec sep align,precision=10}
+]{tbl/tab_bis_sqrt_6.dat}
+\end{center}        
+\caption[]{Metodo delle secanti applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
+\label{tbl:tab_sec_sqrt_6}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{img/iter_cor_sqrt_6}
+    \caption{Successione delle soluzioni del metodo delle secanti applicato a $x^2 -6$ nell'intervallo $[0, 6]$}
+    \label{fig:sec_sqrt_6}
+\end{figure}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+        ]{tbl/tab_cor_sin.dat}
+    \end{center}        
+    \caption[]{Metodo delle secanti applicato a $sin(x)$ nell'intervallo $[3, 3.2]$ con nmax = 10}
+    \label{tbl:tab_sec_sin}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
+            %every first column/.style={column type/.add={|}{}},	% style the first column
+            %every last column/.style={column type/.add={}{|}},	% style the last column
+            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+        ]{tbl/tab_cor_exp_mx.dat}
+    \end{center}        
+    \caption[]{Metodo delle secanti applicato a $e^{e^{-x}}-x$ nell'intervallo $[0, 1]$ con nmax = 10}
+    \label{tbl:tab_sec_exp_mx}
+\end{table}

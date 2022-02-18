@@ -1,0 +1,103 @@
+\section{Metodo di bisezione}
+
+Sia $f (x)$ una funzione continua sull'intervallo limitato e chiuso $[a, b]$ con $f (a) \cdot f (b) < 0$. L'algoritmo genera una successione di intervalli
+$[a_k , b_k]$ con $f (a_k ) \cdot f (b_k ) < 0$ e con $[a_k , b_k ] \subset [a_{k-1}$ , $b_{k-1} ]$ e $|b_k - a_k | = \frac{1}{2}|b_{k-1} - a_{k-1} |$. 
+
+Date due tolleranze $\epsilon_1$ , $\epsilon_2$ , l’algoritmo si arresta o quando $|b_k - a_k | \leq \epsilon_1$ o quando $|f (\frac {a_k +b_k}{2} )| \leq
+\epsilon_2$ o infine quando $k > \text{nmax}$, ove nmax è un numero massimo di iterazioni fissato.
+
+Per alleggerire la notazione usiamo $s_{a_k}$ per indicare $\mathrm{segno} \left(f\left(a_k\right)\right)$,
+$s_{b_k}$ per $\mathrm{segno}(f(b_k))$ e
+$s_k$ per $\mathrm{segno}(f (\frac {a_k +b_k}{2}))$, dove
+
+\begin{equation}
+    \mathrm{segno}(x) =
+    \begin{cases}
+        -1 & \text{se } x < 0, \\
+         0 & \text{{se }} x = 0, \\
+        +1 & \text{{se }} x > 0
+    \end{cases}
+\end{equation}
+
+Per il calcolo di $\frac{a_k+b_k}{2}$ in virgola si deve usare la formula: $a_k + (b_k - a_k) / 2$ in modo da ridurre gli errori di troncamento.
+
+\subsection{Convergenza}
+
+Il metodo è sempre convergente e si può calcolare l'ordine considerando l'errore
+come l'ampiezza dell'intervallo di incertezza: $\varepsilon_k = \frac{|b - a|}{2^k}$.
+Il rapporto tra due errori successivi per $p=1$ vale
+
+$$\displaystyle \frac{\varepsilon_{k+1}}{\varepsilon_{k}^p}
+=\frac{
+    \frac{|b - a|}{2^{k+1}}
+  }{
+      \frac{|b - a|}{2^k}
+  }
+  = \frac{1}{2}
+= $$.
+
+L'ordine di convergenza è uno con costante d'errore vale un mezzo.
+
+\subsection{Codifica in JavaScript}
+
+Si veda il listato \ref{lst:bisezione}.
+
+\begin{lstfloat}
+    \lstinputlisting{lst/bisezione.js}
+    \caption{Descrizione in JavaScript del metodo di Bisezione}
+    \label{lst:bisezione}
+\end{lstfloat}
+
+\subsection{Esempi}
+
+Si vedano le tabb.~\ref{tbl:tab_bis_sqrt_6}, \ref{tbl:tab_bis_sin} e \ref{tbl:tab_bis_exp_mx} e la fig. \ref{fig:bis_sqrt_6}.
+
+\begin{table}
+    \begin{center}
+\pgfplotstabletypeset[
+	col sep=tab,
+    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+	every last row/.style={after row=\bottomrule},	% style the last row
+    every column/.style={dec sep align,precision=10}
+]{tbl/tab_bis_sqrt_6.dat}
+\end{center}        
+\caption[]{Metodo dicotomico applicato a $x^2 -6$ nell'intervallo $[0, 6]$ con nmax = 10}
+\label{tbl:tab_bis_sqrt_6}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{img/iter_bis_sqrt_6}
+    \caption{Successione delle soluzioni del metodo dicotomico applicato a $x^2 -6$ nell'intervallo $[0, 6]$}
+    \label{fig:bis_sqrt_6}
+\end{figure}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+        ]{tbl/tab_bis_sin.dat}
+    \end{center}        
+    \caption{Metodo dicotomico applicato a $sin(x)$ nell'intervallo $[3, 3.2]$ con nmax = 10}
+    \label{tbl:tab_bis_sin}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
+            %every first column/.style={column type/.add={|}{}},	% style the first column
+            %every last column/.style={column type/.add={}{|}},	% style the last column
+            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+        ]{tbl/tab_bis_exp_mx.dat}
+    \end{center}        
+    \caption{Metodo dicotomico applicato a $e^{e^{-x}}-x$ nell'intervallo $[0, 1]$ con nmax = 10}
+    \label{tbl:tab_bis_exp_mx}
+\end{table}

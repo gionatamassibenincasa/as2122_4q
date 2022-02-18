@@ -1,0 +1,104 @@
+\subsection{Metodo delle tangenti}
+
+Si approssima la funzione $f(x)$ con la retta $r(x) - f(x_k) = f'(x_k) (x - x_k)$ tangente ad essa in $(x_k, f(x_k))$.
+
+L'iterata assume la forma:
+
+$$x_{k+1} = x_k - \frac{f(x_k)}{f'{x_k}}.$$
+
+\subsubsection{Convergenza}
+
+Il metodo non necessariamente converge.
+Può oscillare o divergere.
+
+\subsubsection{Codifica in JavaScript}
+
+
+Si vedanil listato \ref{lst:tangenti}.
+
+\begin{lstfloat}
+    \lstinputlisting{lst/tangenti.js}
+    \caption{Descrizione in JavaScript del metodo delle tangenti}
+    \label{lst:tangenti}
+\end{lstfloat}
+
+\subsubsection{Esempi}
+
+Si vedano le tabb.~\ref{tbl:tab_tan_sqrt_6}, \ref{tbl:tab_tan_sin} e \ref{tbl:tab_tan_exp_mx} e la fig. \ref{fig:tan_sqrt_6}.
+
+\begin{table}
+    \begin{center}
+\pgfplotstabletypeset[
+	col sep=tab,
+    every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+	every last row/.style={after row=\bottomrule},	% style the last row
+    every column/.style={dec sep align,precision=10}
+	%every first column/.style={column type/.add={|}{}},	% style the first column
+	%every last column/.style={column type/.add={}{|}},	% style the last column
+	%columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+]{tbl/tab_tan_sqrt_6.dat}
+\end{center}        
+\caption[]{Metodo delle tangenti applicato a $x^2 -6$ con stima iniziale 3 e nmax = 10}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \includestandalone{img/iter_tan_sqrt_6}
+    \caption{Successione delle soluzioni del metodo delle tangenti applicato a $x^2 -6$ nell'intervallo $[0, 6]$}
+    \label{fig:tan_sqrt_6}
+\end{figure}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+            %every first column/.style={column type/.add={|}{}},	% style the first column
+            %every last column/.style={column type/.add={}{|}},	% style the last column
+            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+        ]{tbl/tab_tan_sin.dat}
+    \end{center}        
+    \caption[]{Metodo delle tangenti applicato a $sin(x)$ con stima iniziale 3,1 e nmax = 10}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \pgfplotstabletypeset[
+            col sep=tab,
+            every head row/.style={before row=\toprule,after row=\midrule},	% style the first row
+            every last row/.style={after row=\bottomrule},	% style the last row
+            every column/.style={dec sep align,precision=10}
+            %columns/.style={sci,sci subscript,sci zerofill,dec sep align}
+            %every first column/.style={column type/.add={|}{}},	% style the first column
+            %every last column/.style={column type/.add={}{|}},	% style the last column
+            %columns/C/.style = {column type/.add={|}{|}}	% style the designated column
+        ]{tbl/tab_tan_exp_mx.dat}
+    \end{center}        
+    \caption[]{Metodo delle tangenti applicato a $e^{e^{-x}}-x$ con stima iniziale 0,5 e nmax = 10}
+\end{table}
+
+
+\subsubsection{Esempio: algoritmo del reciproco}
+
+Si vuole cercare il reciproco del valore $\nu$ come $\alpha = \frac{1}{\nu}$ con il metodo delle tangenti.
+
+Per prima cosa occorre trasformare il problema con una funzione che si annulla in $\frac{1}{\nu}$.
+
+Scegliamo $$f(x) = \nu - \frac{1}{x}$$ che applicata al reciproco di $\nu$ produce
+$f(\frac{1}{\nu}) = \nu - \frac{1}{\frac{1}{\nu}} = \nu - \nu = 0$. 
+
+La derivata prima assume la forma $f'(x) = \frac{1}{x^2}$ e
+
+$$\frac{f(x)}{f'(x)} = \frac{\nu - \frac{1}{x}}{\frac{1}{x^2}} = \nu x^2 - x.$$
+
+L'iterata del metodo delle tangenti è:
+
+$$x_{k+1} = x_k - (\nu x_k^2 - x_k) = 2 x_k - \nu x_k^2  = x_k \cdot (2 - \nu \cdot x_k).$$
+
+Si noti che per calcolare il reciproco di un numero sono sufficienti le operazioni di moltiplicazione e sottrazione.
+Per la moltiplicazione occorrono le operazioni primitive di scorrimento e addizione e per la sottrazione quelle di negazione bit a bit e di addizione (basterebbe il solo incremento unitario).
+
+Nota: queste proprietà permettono di realizzare le CPU senza l'operazione di divisione.
+
